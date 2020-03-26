@@ -30,7 +30,7 @@ server.post("/imagetotweet", (req, res) => {
     client.post(
       "media/upload",
       {
-        media: img
+        media: imageData
       },
       function(error, media, response) {
         if (error) {
