@@ -39,12 +39,12 @@ server.post("/imagetotweet", async (req, res) => {
   deleteImage();
   ba64.writeImage("./media/myimage", dataUrl, err => {
     if (err) {
-      console.log("@@@@@@ Nooooo");
+      console.log("Write image error", err);
     }
     console.log("Image saved successfully");
     fs.readFile("./media/myimage.png", (err, data) => {
       if (err) {
-        console.log(err);
+        console.log("Read file err", err);
       }
       try {
         client.post(
