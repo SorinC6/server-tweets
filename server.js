@@ -18,15 +18,16 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-// server.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//   res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
-//   next();
-// });
+server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
+  console.log("Testtttttttt");
+  next();
+});
 
 const deleteImage = () => {
   const path = "./media/myimage.png";
@@ -41,7 +42,7 @@ const deleteImage = () => {
 
 server.post("/imagetotweet", async (req, res) => {
   const { dataUrl } = req.body;
-
+  console.log(dataUrl);
   ba64.writeImage("./media/myimage", dataUrl, function(err, i) {
     if (err) {
       res.status(500).json({ error: "To many tweets, try again later" });
