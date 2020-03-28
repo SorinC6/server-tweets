@@ -15,18 +15,18 @@ const client = new Twitter({
 });
 
 server.use(helmet());
-server.use(cors());
 server.use(express.json());
+server.use(cors());
 
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
-  next();
-});
+// server.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
+//   next();
+// });
 
 const deleteImage = () => {
   const path = "./media/myimage.png";
