@@ -38,42 +38,41 @@ server.post("/imagetotweet", async (req, res) => {
       res.status(500).json({ error: "To many tweets, try again later" });
     }
     console.log("Image saved successfully");
-
-    // do stuff
-    const imageData = fs.readFileSync("./media/myimage.png");
-    try {
-      client.post(
-        "media/upload",
-        {
-          media: imageData
-        },
-        function(error, media, response) {
-          if (error) {
-            console.log(error);
-          } else {
-            const status = {
-              status: "I tweeted from Node.js!",
-              media_ids: media.media_id_string
-            };
-            client.post("statuses/update", status, function(error, response) {
-              if (error) {
-                console.log(error);
-              } else {
-                debugger;
-                res.status(200).json({
-                  message: response.entities.media[0].display_url
-                });
-                // console.log("Media", response.entities.media[0].display_url);
-              }
-            });
-          }
-        }
-      );
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-    deleteImage();
   });
+  
+  const imageData = fs.readFileSync("./media/myimage.png");
+  try {
+    client.post(
+      "media/upload",
+      {
+        media: imageData
+      },
+      function(error, media, response) {
+        if (error) {
+          console.log(error);
+        } else {
+          const status = {
+            status: "I tweeted from Node.js!",
+            media_ids: media.media_id_string
+          };
+          client.post("statuses/update", status, function(error, response) {
+            if (error) {
+              console.log(error);
+            } else {
+              debugger;
+              res.status(200).json({
+                message: response.entities.media[0].display_url
+              });
+              // console.log("Media", response.entities.media[0].display_url);
+            }
+          });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+  deleteImage();
 });
 
 server.get("/img", (req, res) => {
