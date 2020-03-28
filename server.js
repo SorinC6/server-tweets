@@ -18,17 +18,6 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT");
-  console.log("Testtttttttt");
-  next();
-});
-
 const deleteImage = () => {
   const path = "./media/myimage.png";
   fs.unlink(path, err => {
@@ -45,6 +34,7 @@ server.post("/imagetotweet", async (req, res) => {
   console.log(dataUrl);
   ba64.writeImage("./media/myimage", dataUrl, function(err, i) {
     if (err) {
+      console.log(err);
       res.status(500).json({ error: "To many tweets, try again later" });
     }
     console.log("Image saved successfully");
@@ -80,7 +70,7 @@ server.post("/imagetotweet", async (req, res) => {
         }
       );
     } catch (error) {
-      res.status(500).json({ error: "error trying to tweet" });
+      res.status(500).json({ error: error.message });
     }
     deleteImage();
   });
