@@ -37,12 +37,12 @@ server.post("/imagetotweet", async (req, res) => {
   // const imageData = null;
   console.log(dataUrl);
   deleteImage();
-  ba64.writeImage("./media/myimage", dataUrl, err => {
+  ba64.writeImage("myimage", dataUrl, err => {
     if (err) {
       console.log("Write image error", err);
     }
     console.log("Image saved successfully");
-    fs.readFile("./media/myimage.png", (err, data) => {
+    fs.readFile("myimage.png", (err, data) => {
       if (err) {
         console.log("Read file err", err);
       }
@@ -77,7 +77,7 @@ server.post("/imagetotweet", async (req, res) => {
       } catch (error) {
         res.status(500).json({ error: error.message });
       }
-      deleteImage();
+      // deleteImage();
     });
   });
 });
