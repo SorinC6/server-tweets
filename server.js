@@ -32,6 +32,7 @@ const deleteImage = () => {
 server.post("/imagetotweet", async (req, res) => {
   const { dataUrl } = req.body;
   console.log(dataUrl);
+  deleteImage();
   ba64.writeImage("./media/myimage", dataUrl, function(err, i) {
     if (err) {
       console.log(err);
@@ -39,7 +40,7 @@ server.post("/imagetotweet", async (req, res) => {
     }
     console.log("Image saved successfully");
   });
-  
+
   const imageData = fs.readFileSync("./media/myimage.png");
   try {
     client.post(
