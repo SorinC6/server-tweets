@@ -8,10 +8,10 @@ let ba64 = require("ba64");
 const cors = require("cors");
 
 const client = new Twitter({
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
-  access_token_key: process.env.ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET
+  consumer_key: "rOzeTYuUv4RI97rle3fRi64HF",
+  consumer_secret: "myuBSyJuvR92Rc8vUG1JVJ5cAA9yrcUU4xc4cVrGDkVVcPELFU",
+  access_token_key: "1241376150041112577-ugvNSScEIoRc2iwa4FDi0cZowAKGzq",
+  access_token_secret: "XcZWWasaD1GCLuQ2N4nv4mTywuxv6mWIqHtLAQIQNE4H0"
 });
 
 server.use(helmet());
