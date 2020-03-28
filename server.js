@@ -2,10 +2,10 @@ const express = require("express");
 const helmet = require("helmet");
 const Twitter = require("twitter");
 const fs = require("fs");
-const ba64 = require("ba64");
 
-const cors = require("cors");
 const server = express();
+let ba64 = require("ba64");
+const cors = require("cors");
 
 const client = new Twitter({
   consumer_key: process.env.CONSUMER_KEY,
@@ -15,8 +15,8 @@ const client = new Twitter({
 });
 
 server.use(helmet());
-server.use(express.json());
 server.use(cors());
+server.use(express.json());
 
 const deleteImage = () => {
   const path = "./media/myimage.png";
