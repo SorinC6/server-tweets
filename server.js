@@ -8,10 +8,10 @@ let ba64 = require("ba64");
 const cors = require("cors");
 
 const client = new Twitter({
-  consumer_key: "rOzeTYuUv4RI97rle3fRi64HF",
-  consumer_secret: "myuBSyJuvR92Rc8vUG1JVJ5cAA9yrcUU4xc4cVrGDkVVcPELFU",
-  access_token_key: "1241376150041112577-ugvNSScEIoRc2iwa4FDi0cZowAKGzq",
-  access_token_secret: "XcZWWasaD1GCLuQ2N4nv4mTywuxv6mWIqHtLAQIQNE4H0"
+  consumer_key: "YszswGYtUgKcubTfFIMsy7UGV",
+  consumer_secret: "o9I9X8bLMANkTigt3maqZeL5ToPfUJkdLfKAPJK4CgaCl3l6yd",
+  access_token_key: "1243942606180098049-7N9S0FlWOPa3dq7zHl6IoeW1xzCPPi",
+  access_token_secret: "DvJWYSz6u4XKJkJXnrfWDPCSI8ew65dt7AT0e4B2Funs7"
 });
 
 server.use(helmet());
@@ -33,7 +33,7 @@ const deleteImage = () => {
 };
 
 server.post("/imagetotweet", async (req, res) => {
-  const { dataUrl } = req.body;
+  const { dataUrl, shareId } = req.body;
   // const imageData = null;
   console.log(dataUrl);
   deleteImage();
@@ -57,7 +57,7 @@ server.post("/imagetotweet", async (req, res) => {
               console.log(error);
             } else {
               const status = {
-                status: "I tweeted from Node.js!",
+                status: `Codelify image - ShareId ${shareId}`,
                 media_ids: media.media_id_string
               };
               client.post("statuses/update", status, function(error, response) {

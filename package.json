@@ -9,7 +9,8 @@
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "nodemon": "^2.0.2",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {},
   "scripts": {
