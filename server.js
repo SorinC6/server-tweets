@@ -1,28 +1,32 @@
 const express = require("express");
 const helmet = require("helmet");
+const bodyParser = require("body-parser");
+
 const Twitter = require("twitter");
 const fs = require("fs");
 
+const cors = require("cors");
 const server = express();
 let ba64 = require("ba64");
-const cors = require("cors");
 
 const client = new Twitter({
-  consumer_key: "YszswGYtUgKcubTfFIMsy7UGV",
-  consumer_secret: "o9I9X8bLMANkTigt3maqZeL5ToPfUJkdLfKAPJK4CgaCl3l6yd",
-  access_token_key: "1243942606180098049-7N9S0FlWOPa3dq7zHl6IoeW1xzCPPi",
-  access_token_secret: "DvJWYSz6u4XKJkJXnrfWDPCSI8ew65dt7AT0e4B2Funs7"
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 });
 
 server.use(helmet());
+server.use(bodyParser.json({ limit: "50mb" }));
+server.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 server.use(express.json());
 server.use(cors());
 
 const deleteImage = () => {
-  const path = "./media/myimage.png";
+  const path = "myimage.png";
   if (fs.existsSync(path)) {
     //file exists
-    fs.unlink(path, err => {
+    fs.unlink(path, (err) => {
       if (err) {
         console.error(err);
         return;
@@ -34,15 +38,15 @@ const deleteImage = () => {
 
 server.post("/imagetotweet", async (req, res) => {
   const { dataUrl, shareId } = req.body;
-  // const imageData = null;
-  console.log(dataUrl);
+  // console.log(dataUrl);
   deleteImage();
-  ba64.writeImage("myimage", dataUrl, err => {
+  ba64.writeImage("myimage", dataUrl, (err) => {
     if (err) {
       console.log("Write image error", err);
     }
     console.log("Image saved successfully");
-    fs.readFile("myimage.png", (err, data) => {
+
+    fs.readFile("processed.png", (err, data) => {
       if (err) {
         console.log("Read file err", err);
       }
@@ -50,23 +54,26 @@ server.post("/imagetotweet", async (req, res) => {
         client.post(
           "media/upload",
           {
-            media: data
+            media: data,
           },
-          function(error, media, response) {
+          function (error, media, response) {
             if (error) {
-              console.log(error);
+              console.log("MEDIA UPLOAD", error);
             } else {
               const status = {
-                status: `Codelify image - ShareId ${shareId}`,
-                media_ids: media.media_id_string
+                status: "Just made a tweet",
+                media_ids: media.media_id_string,
               };
-              client.post("statuses/update", status, function(error, response) {
+              client.post("statuses/update", status, function (
+                error,
+                response
+              ) {
                 if (error) {
-                  console.log(error);
+                  console.log("STATUS  UPDATE", error);
                 } else {
                   debugger;
                   res.status(200).json({
-                    message: response.entities.media[0].display_url
+                    message: response.entities.media[0].display_url,
                   });
                   // console.log("Media", response.entities.media[0].display_url);
                 }
@@ -81,12 +88,6 @@ server.post("/imagetotweet", async (req, res) => {
     });
   });
 });
-// if (err) {
-//   console.log(err);
-//   res.status(500).json({ error: "To many tweets, try again later" });
-// }
-
-// do stuff
 
 server.get("/img", (req, res) => {
   res.send("<h1>test img</h1>");
